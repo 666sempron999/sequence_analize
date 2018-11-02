@@ -16,28 +16,44 @@ def print_value(nValue):
         print(nValue[i])
 
 
-def show_graphic(signalData):
+def show_graphic(signalData, timeData):
     """
     """
+    fig = plt.figure()
+    g1 = 211
+    g2 = 212
+
+    ax1 = fig.add_subplot(g1)
+    ax1.set_title("Оригинал")
+    ax1.plot(timeData, signalData, "-", lw=2)
+
+    ax1.grid(True)
+    
     #
     positivePeaks, positiveProperties = find_peaks(signalData, width=1)
     #
     negativePeaks, negativeProperties = find_peaks(-signalData, width=1)
     #
-    plt.plot(x, "k")
-    plt.plot(positivePeaks, x[positivePeaks], "rx")
-    plt.plot(negativePeaks, x[negativePeaks], "bx")
+    ax2 = fig.add_subplot(g2)
+    ax2.set_title("Информационная составляющая")
+    ax2.plot(signalData)
 
-    plt.vlines(x=positivePeaks, ymin=x[positivePeaks] - positiveProperties["prominences"],
+    ax2.plot(x, "k")
+    ax2.plot(positivePeaks, x[positivePeaks], "rx")
+    ax2.plot(negativePeaks, x[negativePeaks], "bx")
+
+    ax2.grid(True)
+
+    ax2.vlines(x=positivePeaks, ymin=x[positivePeaks] - positiveProperties["prominences"],
                ymax = x[positivePeaks], color = "C1")
 
-    plt.hlines(y=positiveProperties["width_heights"], xmin=positiveProperties["left_ips"],
+    ax2.hlines(y=positiveProperties["width_heights"], xmin=positiveProperties["left_ips"],
                xmax=positiveProperties["right_ips"], color = "C1")
 
-    plt.vlines(x=negativePeaks, ymin=x[negativePeaks] + negativeProperties["prominences"],
+    ax2.vlines(x=negativePeaks, ymin=x[negativePeaks] + negativeProperties["prominences"],
                ymax = x[negativePeaks], color = "C2")
 
-    plt.hlines(y=-negativeProperties["width_heights"], xmin=negativeProperties["left_ips"],
+    ax2.hlines(y=-negativeProperties["width_heights"], xmin=negativeProperties["left_ips"],
                xmax=negativeProperties["right_ips"], color = "C2")
 
     plt.show()
@@ -60,6 +76,7 @@ if __name__ == '__main__':
     newX = [float(x.replace(",", ".")) for x in xs]
     newY = [float(y.replace(",", ".")) for y in ys]
 
+
     # ax1 = fig.add_subplot(g1)
     # ax1.set_title("С параметром")
 
@@ -72,6 +89,7 @@ if __name__ == '__main__':
     # # plt.show()
 
     x = array(newX)
+    y = array(newY)
     # # print("New tyoe of data is {}".format(type(x)))
 
     # peaks, properties = find_peaks(x, width=1)
@@ -91,4 +109,8 @@ if __name__ == '__main__':
     # plt.show()
 
 
-    positivePeaks, positiveProperties, negativePeaks, negativeProperties = show_graphic(x)
+
+    positivePeaks, positiveProperties, negativePeaks, negativeProperties = show_graphic(x, y)
+
+    print(positivePeaks)
+    print_value(positiveProperties.get("widths"))

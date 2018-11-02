@@ -41,7 +41,7 @@ def show_graphic(signalData):
     
 ###############################################################
 
-x = electrocardiogram()[17900:18000]
+x = electrocardiogram()[17900:17950]
 
 positivePeaks, positiveProperties, negativePeaks, negativeProperties = show_graphic(x)
 
