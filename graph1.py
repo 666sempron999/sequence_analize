@@ -24,8 +24,18 @@ def show_graphic(signalData, timeData):
     g2 = 212
 
     ax1 = fig.add_subplot(g1)
+    # ax2 = ax1.twiny()
+    # ax2.set_ylim(0, 450)
+
+
+
     ax1.set_title("Оригинал")
     ax1.plot(timeData, signalData, "-", lw=2)
+    # ax1.set_xlim(xmin=0)
+
+    axn = ax1.twiny()
+    axn.plot(timeData, signalData, "-", lw=2)
+    axn.set_xlim(0, len(signalData))
 
     ax1.grid(True)
     
@@ -39,6 +49,7 @@ def show_graphic(signalData, timeData):
     ax2.plot(signalData)
 
     ax2.plot(x, "k")
+    ax2.set_xlim(0, len(timeData))
     ax2.plot(positivePeaks, x[positivePeaks], "rx")
     ax2.plot(negativePeaks, x[negativePeaks], "bx")
 
@@ -55,7 +66,7 @@ def show_graphic(signalData, timeData):
 
     ax2.hlines(y=-negativeProperties["width_heights"], xmin=negativeProperties["left_ips"],
                xmax=negativeProperties["right_ips"], color = "C2")
-
+    plt.tight_layout()
     plt.show()
 
     return positivePeaks, positiveProperties, negativePeaks, negativeProperties
@@ -87,9 +98,10 @@ if __name__ == '__main__':
     # # ax1.grid(True)
 
     # # plt.show()
-
-    x = array(newX)
-    y = array(newY)
+    print("Обнаружено {} значений".format(len(newX)))
+    border = int(input("Введие длинну границы от 0 до {} - ".format(len(newX))))
+    x = array(newX[0:border])
+    y = array(newY[0:border])
     # # print("New tyoe of data is {}".format(type(x)))
 
     # peaks, properties = find_peaks(x, width=1)
