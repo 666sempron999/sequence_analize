@@ -66,30 +66,36 @@ def show_graphic(positivePeaks, positiveProperties, negativePeaks, negativePrope
 
     for i in range(0, len(intervalParemetrs)):
         if intervalParemetrs[i][0] <=0.025 and intervalParemetrs[i][1] <= 2:
-            noiceIndex.append(i)
+            noiceIndex.append(intervals[i])
             plt.axvspan(intervals[i][0], intervals[i][1], \
                 color=colorList[0], alpha=1, label="Потенциальный шум (h<=0.025; w<=2)" if len(noiceIndex) == 1 else "")
 
         elif intervalParemetrs[i][0] <=0.025 and (intervalParemetrs[i][1] > 2 and intervalParemetrs[i][1] <= 3):
-            firstGroup.append(i)
+            firstGroup.append(intervals[i])
             plt.axvspan(intervals[i][0], intervals[i][1], \
                 color=colorList[1], alpha=0.75, label="1-я группа (h<=0.025; w(2-3))" if len(firstGroup) == 1 else "")
 
         elif ((intervalParemetrs[i][0] <=0.025) and (intervalParemetrs[i][1] > 3 and intervalParemetrs[i][1] <= 7)):
-            secondGroup.append(i)
+            secondGroup.append(intervals[i])
             plt.axvspan(intervals[i][0], intervals[i][1], \
                 color=colorList[2], alpha=0.5, label="2-я группа (h<=0.025; w(3-7)" if len(secondGroup) == 1 else "")
 
         elif ((intervalParemetrs[i][0] <=0.3) and (intervalParemetrs[i][1] > 7 and intervalParemetrs[i][1] <= 20)):
-            thirdGroup.append(i)
+            thirdGroup.append(intervals[i])
             plt.axvspan(intervals[i][0], intervals[i][1], \
                 color=colorList[3], alpha=0.35, label="3-я группа (h<=0.3; w(7-20)" if len(thirdGroup) == 1 else "")
         else:
-            fourthGroup.append(i)
+            fourthGroup.append(intervals[i])
             plt.axvspan(intervals[i][0], intervals[i][1], \
                 color=colorList[4], alpha=0.15, linestyle="dashed", label="4-я группа (h>0.3; w>20)" if len(fourthGroup) == 1 else "")
 
-
+    positiveData = []
+    positiveData.append(noiceIndex)
+    positiveData.append(firstGroup)
+    positiveData.append(secondGroup)
+    positiveData.append(thirdGroup)
+    positiveData.append(fourthGroup)
+    
     plt.tight_layout()
     plt.legend() 
 
@@ -152,8 +158,27 @@ def show_graphic(positivePeaks, positiveProperties, negativePeaks, negativePrope
     plt.tight_layout()
     plt.legend() 
     plt.show()
+    return positiveData
 
-
+def print_group_info(groupData):
+    """
+    Вывод информации о состоянии групп
+    """
+    print("Шум")
+    print(groupData[0])
+    print("----------------------------------------")
+    print("1-я группа")
+    print(groupData[1])
+    print("----------------------------------------")
+    print("2-я группа")
+    print(groupData[2])
+    print("----------------------------------------")
+    print("3-я группа")
+    print(groupData[3])
+    print("----------------------------------------")
+    print("4-я группа")
+    print(groupData[4])
+    print("----------------------------------------")
 
 if __name__ == "__main__":
 
@@ -172,8 +197,10 @@ if __name__ == "__main__":
     header = str(a) + "-" + str(b)
 
     positivePeaks, positiveProperties, negativePeaks, negativeProperties = get_grafic_parametr(x)
+
+
+    positiveData = show_graphic(positivePeaks, positiveProperties, negativePeaks, negativeProperties, header)
     print("Обнаружено {} пиков в положительной области".format(len(positivePeaks)))
+    print_group_info(positiveData)
+
     print("Обнаружено {} пиков в отрицательной области".format(len(negativePeaks)))
-
-    show_graphic(positivePeaks, positiveProperties, negativePeaks, negativeProperties, header)
-
