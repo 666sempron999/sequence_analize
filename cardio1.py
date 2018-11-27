@@ -100,7 +100,7 @@ def show_graphic(positivePeaks, positiveProperties, negativePeaks, negativePrope
     positiveData.append(fourthGroup)
     
     plt.tight_layout()
-    plt.legend() 
+    plt.legend(framealpha=1)
 
     #=============================================================================
     # Параметры второй части графика
@@ -166,7 +166,7 @@ def show_graphic(positivePeaks, positiveProperties, negativePeaks, negativePrope
     negativeData.append(fourthGroup)
 
     plt.tight_layout()
-    plt.legend() 
+    plt.legend(framealpha=1) 
 
     plt.show()
     return positiveData, negativeData
