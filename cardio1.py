@@ -1,4 +1,7 @@
 import matplotlib.pyplot as plt
+
+from matplotlib.legend import Legend
+
 import numpy as np
 from scipy.misc import electrocardiogram
 from scipy.signal import find_peaks
@@ -164,6 +167,10 @@ def show_graphic(positivePeaks, positiveProperties, negativePeaks, negativePrope
 
     plt.tight_layout()
     plt.legend() 
+
+    leg = Legend( plt, "k", ['line C', 'line D'], loc='lower right', frameon=False)
+    ax.add_artist(leg)
+
     plt.show()
     return positiveData, negativeData
 
